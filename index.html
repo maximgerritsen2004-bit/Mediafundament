@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mediafundament — social media die structuur, bereik en groei brengt.">
+  <meta name="theme-color" content="#1117d9">
+  <title>Mediafundament — Breng orde in je socials</title>
+
+  <style>
+    :root{
+      --blue:#1117d9;
+      --blue-dark:#080b73;
+      --ink:#111318;
+      --muted:#626875;
+      --paper:#f7f7f3;
+      --white:#fff;
+      --line:rgba(17,19,24,.12);
+      --radius:22px;
+      --shadow:0 18px 60px rgba(9,14,76,.10);
+      --max:1180px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--ink);
+      background:var(--paper);
+      line-height:1.55;
+    }
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
+    button,input,textarea{font:inherit}
+
+    .container{width:min(calc(100% - 40px),var(--max));margin:auto}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:10px;
+      font-size:.78rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+      color:var(--blue);
+    }
+    .eyebrow:before{content:"";width:28px;height:2px;background:currentColor}
+
+    /* Header */
+    header{
+      position:fixed;inset:0 0 auto;z-index:50;
+      background:rgba(247,247,243,.88);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(17,19,24,.08);
+    }
+    .nav{
+      height:82px;display:flex;align-items:center;justify-content:space-between;gap:30px;
+    }
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:-.03em}
+    .brand img{width:48px;height:48px;object-fit:contain}
+    .brand span{font-size:1.05rem}
+    nav ul{display:flex;align-items:center;gap:30px;list-style:none;margin:0;padding:0}
+    nav a{font-size:.92rem;font-weight:700}
+    nav a:hover{color:var(--blue)}
+    .nav-cta{
+      padding:12px 18px;border-radius:999px;background:var(--blue);color:#fff;
+      transition:.2s transform,.2s background;
+    }
+    .nav-cta:hover{color:#fff;background:var(--blue-dark);transform:translateY(-2px)}
+    .menu{display:none;border:0;background:none;font-size:1.6rem;cursor:pointer}
+
+    /* Hero */
+    .hero{min-height:92vh;padding-top:82px;display:grid;align-items:stretch}
+    .hero-wrap{
+      position:relative;min-height:calc(92vh - 82px);overflow:hidden;
+      background:#1016d0;
+    }
+    .hero-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.72) contrast(.94)}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,7,60,.75),rgba(17,23,217,.32),rgba(5,7,60,.42))}
+    .hero-grid{
+      position:absolute;inset:0;pointer-events:none;
+      display:grid;grid-template-columns:repeat(3,1fr);
+      width:min(100%,980px);margin:auto;
+    }
+    .hero-grid span{border-left:1px solid rgba(255,255,255,.42)}
+    .hero-grid span:last-child{border-right:1px solid rgba(255,255,255,.42)}
+    .hero-content{
+      position:relative;z-index:2;min-height:calc(92vh - 82px);
+      display:flex;align-items:center;
+    }
+    .hero-copy{width:min(780px);color:#fff;padding:90px 0}
+    .hero-copy .eyebrow{color:#fff}
+    h1{
+      font-size:clamp(3.5rem,8vw,7.8rem);
+      line-height:.88;letter-spacing:-.075em;margin:22px 0 30px;
+      font-weight:950;
+    }
+    h1 em{font-family:Georgia,serif;font-weight:400;font-style:italic;letter-spacing:-.06em}
+    .hero-copy p{max-width:620px;font-size:1.15rem;color:rgba(255,255,255,.86);margin:0 0 34px}
+    .actions{display:flex;flex-wrap:wrap;gap:12px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:9px;
+      min-height:50px;padding:0 22px;border-radius:999px;font-weight:800;border:1px solid transparent;
+      transition:.2s transform,.2s background,.2s color;
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn-light{background:#fff;color:var(--blue)}
+    .btn-outline{border-color:rgba(255,255,255,.6);color:#fff;background:transparent}
+    .scroll-note{
+      position:absolute;right:28px;bottom:30px;z-index:3;color:#fff;
+      font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;writing-mode:vertical-rl;
+    }
+
+    /* Sections */
+    section{padding:110px 0}
+    .intro{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px;align-items:end}
+    .intro h2,.section-head h2{
+      font-size:clamp(2.5rem,5vw,5rem);line-height:.96;letter-spacing:-.065em;margin:18px 0 0;
+    }
+    .intro p{font-size:1.1rem;color:var(--muted);max-width:650px;margin:0}
+    .intro strong{color:var(--ink)}
+
+    .services{background:#fff}
+    .section-head{display:flex;justify-content:space-between;gap:40px;align-items:end;margin-bottom:48px}
+    .section-head > div:last-child{max-width:450px;color:var(--muted)}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{
+      background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+      padding:34px;min-height:310px;display:flex;flex-direction:column;justify-content:space-between;
+      transition:.25s transform,.25s box-shadow;
+    }
+    .card:hover{transform:translateY(-7px);box-shadow:var(--shadow)}
+    .number{font-size:.75rem;font-weight:900;color:var(--blue);letter-spacing:.12em}
+    .card h3{font-size:1.55rem;letter-spacing:-.04em;margin:20px 0 10px}
+    .card p{color:var(--muted);margin:0}
+    .arrow{font-size:1.4rem;color:var(--blue);align-self:flex-end}
+
+    /* Feature split */
+    .feature{background:var(--blue);color:#fff}
+    .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+    .feature h2{font-size:clamp(2.8rem,5vw,5.6rem);line-height:.92;letter-spacing:-.07em;margin:20px 0}
+    .feature p{color:rgba(255,255,255,.78);font-size:1.08rem}
+    .feature-list{display:grid;gap:12px;margin-top:30px}
+    .feature-list div{
+      padding:16px 0;border-top:1px solid rgba(255,255,255,.25);
+      display:flex;justify-content:space-between;font-weight:800
+    }
+    .feature-list div:last-child{border-bottom:1px solid rgba(255,255,255,.25)}
+    .visual{
+      min-height:540px;border-radius:var(--radius);overflow:hidden;position:relative;
+      background:#080b73;
+    }
+    .visual img{width:100%;height:100%;object-fit:cover}
+    .visual-tag{
+      position:absolute;left:24px;bottom:24px;background:#fff;color:var(--blue);
+      border-radius:999px;padding:10px 15px;font-weight:900;font-size:.8rem
+    }
+
+    /* Cases */
+    .cases{background:var(--paper)}
+    .case-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:16px}
+    .case{
+      position:relative;overflow:hidden;min-height:460px;border-radius:var(--radius);background:var(--blue);
+      padding:36px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;
+    }
+    .case:before{
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(180deg,transparent 25%,rgba(0,0,0,.65));
+      z-index:1
+    }
+    .case-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .case-content{position:relative;z-index:2}
+    .case h3{font-size:2.1rem;line-height:1;letter-spacing:-.05em;margin:10px 0}
+    .case p{color:rgba(255,255,255,.8);max-width:560px}
+    .case-small{min-height:460px;background:#111318}
+    .case-small .case-bg{opacity:.45}
+
+    /* Process */
+    .process{background:#fff}
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:55px}
+    .step{padding:28px 26px;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+    .step:last-child{border-right:1px solid var(--line)}
+    .step-num{font-size:2.5rem;font-weight:950;letter-spacing:-.08em;color:var(--blue)}
+    .step h3{margin:30px 0 8px;letter-spacing:-.03em}
+    .step p{color:var(--muted);margin:0}
+
+    /* CTA */
+    .cta{padding:90px 0}
+    .cta-box{
+      background:#111318;color:#fff;border-radius:28px;padding:65px;
+      display:flex;justify-content:space-between;gap:40px;align-items:end;
+      overflow:hidden;position:relative
+    }
+    .cta-box:after{
+      content:"";position:absolute;width:380px;height:380px;border-radius:50%;
+      right:-130px;top:-180px;background:var(--blue);opacity:.9
+    }
+    .cta-box > *{position:relative;z-index:1}
+    .cta h2{font-size:clamp(2.7rem,5vw,5.2rem);line-height:.93;letter-spacing:-.065em;margin:14px 0 0;max-width:750px}
+    .cta p{color:#b8bbc4;max-width:530px}
+    .cta .btn{background:#fff;color:var(--ink);white-space:nowrap}
+
+    footer{background:#080a35;color:#fff;padding:55px 0 25px}
+    .footer-top{display:flex;justify-content:space-between;gap:40px;align-items:start}
+    .footer-brand{font-size:1.3rem;font-weight:950;letter-spacing:-.04em}
+    .footer-links{display:flex;gap:28px;flex-wrap:wrap;color:#c4c7d4;font-size:.9rem}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,.14);margin-top:45px;padding-top:18px;color:#8f93a5;font-size:.8rem;display:flex;justify-content:space-between;gap:20px}
+
+    /* Mobile */
+    @media(max-width:850px){
+      .container{width:min(calc(100% - 28px),var(--max))}
+      .nav{height:72px}
+      nav{display:none}
+      .menu{display:block}
+      .hero{padding-top:72px}
+      .hero-wrap,.hero-content{min-height:78vh}
+      .hero-grid{width:100%}
+      h1{font-size:clamp(3.2rem,15vw,6rem)}
+      section{padding:80px 0}
+      .intro,.feature-grid,.case-grid{grid-template-columns:1fr;gap:38px}
+      .section-head{display:block}
+      .section-head > div:last-child{margin-top:20px}
+      .cards{grid-template-columns:1fr}
+      .card{min-height:250px}
+      .visual{min-height:380px}
+      .steps{grid-template-columns:1fr 1fr}
+      .step:nth-child(2){border-right:1px solid var(--line)}
+      .step:nth-child(3){border-top:0}
+      .step:nth-child(4){border-top:0;border-right:1px solid var(--line)}
+      .cta-box{display:block;padding:42px 28px}
+      .cta .btn{margin-top:25px}
+      .footer-top,.footer-bottom{display:block}
+      .footer-links{margin-top:22px}
+      .footer-bottom span{display:block;margin-top:8px}
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="container nav">
+    <a class="brand" href="#top" aria-label="Mediafundament home">
+      <img src="assets/mediafundament-logo.png" alt="Mediafundament logo">
+      <span>mediafundament</span>
+    </a>
+
+    <nav aria-label="Hoofdnavigatie">
+      <ul>
+        <li><a href="#diensten">Diensten</a></li>
+        <li><a href="#werkwijze">Werkwijze</a></li>
+        <li><a href="#cases">Cases</a></li>
+        <li><a href="#over">Over ons</a></li>
+        <li><a class="nav-cta" href="#contact">Start een gesprek</a></li>
+      </ul>
+    </nav>
+
+    <button class="menu" aria-label="Menu openen" onclick="document.body.classList.toggle('menu-open')">☰</button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-wrap">
+      <img class="hero-media" src="assets/hero.jpg" alt="">
+      <div class="hero-overlay"></div>
+      <div class="hero-grid" aria-hidden="true"><span></span><span></span><span></span></div>
+
+      <div class="container hero-content">
+        <div class="hero-copy">
+          <span class="eyebrow">Social media bureau</span>
+          <h1>Breng <em>orde</em><br>in je socials.</h1>
+          <p>
+            Mediafundament helpt merken om social media overzichtelijk, herkenbaar
+            en doelgericht in te zetten. Van strategie en content tot campagnes en groei.
+          </p>
+          <div class="actions">
+            <a class="btn btn-light" href="#contact">Plan een kennismaking →</a>
+            <a class="btn btn-outline" href="#diensten">Bekijk diensten</a>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-note">Scroll om te ontdekken</div>
+    </div>
+  </section>
+
+  <section id="over">
+    <div class="container intro">
+      <div>
+        <span class="eyebrow">Mediafundament</span>
+        <h2>Een sterk merk begint met een sterk fundament.</h2>
+      </div>
+      <div>
+        <p>
+          Social media hoeft geen dagelijkse chaos te zijn. Wij brengen <strong>strategie,
+          creativiteit en structuur</strong> samen, zodat jouw merk consistent zichtbaar is
+          en je team weet wat er moet gebeuren.
+        </p>
+        <p style="margin-top:20px">
+          Geen losse posts zonder richting, maar een helder verhaal dat aansluit op je
+          doelgroep én op je bedrijfsdoelen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="services" id="diensten">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Wat we doen</span>
+          <h2>Van idee naar<br>impact.</h2>
+        </div>
+        <div>
+          We bouwen een social media fundament dat past bij je merk, je mensen en je ambities.
+        </div>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div>
+            <span class="number">01 — STRATEGIE</span>
+            <h3>Social strategie</h3>
+            <p>Een duidelijke koers voor kanalen, doelgroep, formats, tone of voice en content.</p>
+          </div>
+          <span class="arrow">↗</span>
+        </article>
+
+        <article class="card">
+          <div>
+            <span class="number">02 — CONTENT</span>
+            <h3>Content & creatie</h3>
+            <p>Van concept en copy tot design, fotografie en video: content die herkenbaar voelt.</p>
+          </div>
+          <span class="arrow">↗</span>
+        </article>
+
+        <article class="card">
+          <div>
+            <span class="number">03 — GROEI</span>
+            <h3>Campagnes & advertising</h3>
+            <p>Gerichte campagnes met een helder doel, slimme targeting en continue optimalisatie.</p>
+          </div>
+          <span class="arrow">↗</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature">
+    <div class="container feature-grid">
+      <div>
+        <span class="eyebrow" style="color:#fff">Waarom Mediafundament</span>
+        <h2>Rust in je planning. Kracht in je merk.</h2>
+        <p>
+          Wij maken social media praktisch. Een heldere contentstructuur, vaste formats
+          en een herkenbare visuele lijn geven je merk ruimte om te groeien.
+        </p>
+
+        <div class="feature-list">
+          <div><span>Strategisch fundament</span><span>01</span></div>
+          <div><span>Herkenbare content</span><span>02</span></div>
+          <div><span>Meetbare campagnes</span><span>03</span></div>
+          <div><span>Blijvende structuur</span><span>04</span></div>
+        </div>
+      </div>
+
+      <div class="visual">
+        <img src="assets/hero.jpg" alt="Werkplek met laptop en notitieboek">
+        <span class="visual-tag">Content met richting</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="cases" id="cases">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Werk dat werkt</span>
+          <h2>Van strategie<br>naar scherm.</h2>
+        </div>
+        <div>Vervang deze voorbeelden later door je eigen klanten, projecten en resultaten.</div>
+      </div>
+
+      <div class="case-grid">
+        <article class="case">
+          <img class="case-bg" src="assets/hero.jpg" alt="">
+          <div class="case-content">
+            <span class="number" style="color:#fff">CASE 01</span>
+            <h3>Een herkenbaar merk op ieder kanaal.</h3>
+            <p>Strategie, contentformats en een nieuwe visuele social identiteit.</p>
+          </div>
+        </article>
+
+        <article class="case case-small">
+          <div class="case-content">
+            <span class="number" style="color:#fff">CASE 02</span>
+            <h3>Meer structuur. Minder ruis.</h3>
+            <p>Een contentmachine waarmee teams sneller en consistenter publiceren.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="process" id="werkwijze">
+    <div class="container">
+      <span class="eyebrow">Onze werkwijze</span>
+      <div class="section-head" style="margin-top:10px">
+        <div><h2>Vier stappen.<br>Eén fundament.</h2></div>
+        <div>Een overzichtelijk proces van eerste gesprek tot een social aanpak die staat.</div>
+      </div>
+
+      <div class="steps">
+        <article class="step">
+          <div class="step-num">01</div>
+          <h3>Luisteren</h3>
+          <p>We leren je merk, doelgroep, doelen en uitdagingen kennen.</p>
+        </article>
+        <article class="step">
+          <div class="step-num">02</div>
+          <h3>Strategie</h3>
+          <p>We vertalen inzichten naar een duidelijke social media koers.</p>
+        </article>
+        <article class="step">
+          <div class="step-num">03</div>
+          <h3>Maken</h3>
+          <p>We ontwikkelen formats, campagnes en content die bij je merk passen.</p>
+        </article>
+        <article class="step">
+          <div class="step-num">04</div>
+          <h3>Groeien</h3>
+          <p>We meten, leren en verbeteren zodat je fundament steeds sterker wordt.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="contact">
+    <div class="container">
+      <div class="cta-box">
+        <div>
+          <span class="eyebrow" style="color:#fff">Klaar om te beginnen?</span>
+          <h2>Maak van social media een fundament.</h2>
+          <p>Vertel ons waar je tegenaan loopt. We denken mee over een praktische volgende stap.</p>
+        </div>
+        <a class="btn" href="mailto:hello@mediafundament.nl">Neem contact op →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">mediafundament</div>
+      <div class="footer-links">
+        <a href="#diensten">Diensten</a>
+        <a href="#werkwijze">Werkwijze</a>
+        <a href="#cases">Cases</a>
+        <a href="#over">Over ons</a>
+        <a href="mailto:hello@mediafundament.nl">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Mediafundament</span>
+      <span>Strategie · Content · Social media</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Simple mobile navigation without external dependencies.
+  const menu = document.querySelector('.menu');
+  const nav = document.querySelector('nav');
+  menu?.addEventListener('click', () => {
+    const open = nav.style.display === 'block';
+    nav.style.display = open ? '' : 'block';
+    if (!open) {
+      nav.style.position = 'absolute';
+      nav.style.top = '72px';
+      nav.style.left = '0';
+      nav.style.right = '0';
+      nav.style.background = 'rgba(247,247,243,.98)';
+      nav.style.padding = '18px 20px 24px';
+      nav.querySelector('ul').style.flexDirection = 'column';
+      nav.querySelector('ul').style.alignItems = 'stretch';
+    }
+  });
+</script>
+</body>
+</html>
